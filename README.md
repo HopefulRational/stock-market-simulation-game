@@ -1,3 +1,3 @@
 # stock-market-simulation
-HopefulRational and team <br />
+HopefulRational and team <br /> <br />
 Simple stock market simulation with questionaire for data collection
