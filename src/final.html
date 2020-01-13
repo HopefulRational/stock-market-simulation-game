@@ -1,0 +1,566 @@
+<!DOCTYPE HTML>
+<html>
+<meta charset="utf-8">
+<head>
+<title>STOCK EXCHANGE</title>
+
+
+<script type="text/javascript" src="../scripts/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../scripts/canvasjs.min.js"></script>
+<script type="text/javascript" src="../bootstrap/js/bootstrap.js"></script>
+
+
+<link rel = "stylesheet" type = "text/css" href ="../style.css">
+<link rel = "stylesheet" type = "text/css" href ="../bootstrap/css/bootstrap.css">
+<script type="text/javascript">
+window.onload = function () {
+
+
+var query= decodeURIComponent(window.location.search)
+query= query.substring(1)
+quiz_data= query.split("&")
+console.log(quiz_data)
+
+var total= 100000;
+var curShare1= 0, curShare2= 0, curShare3= 0, curShare4= 0;
+var xVal = 0;
+var yVal1 = 0, yVal2= 0, yVal3= 0, yVal4= 0; 
+
+var data= [];
+var dcount= 0;
+
+var dps1 = []; // dataPoints
+var dps2= []; 
+var dps3= [];
+var dps4= [];
+
+var input1= [187.29,145.6,123.5,100.38,80.1, 66.4, 64.8, 49.9, 53.2, 49.5, 50.9, 54.5, 50.1, 47.7, 26.0, 27.4, 27.6, 39.3, 41.5, 37.3, 35.4, 26.5, 26.3, 26.0, 24.0, 21.7, 22.2, 20.9];
+
+var input2=[24.82,33.19,46.69,60.29,54.2,55.2,52.0,45.7,56.6,75.3,71.2,82.9,88.6,87.7,113.2,146.5,158.9,162.0,242.7,279.7,316.8,440.5,458.4,519.3,494.4,480.9,627.4,597.4];
+
+var input3= [170.1,165.6,173.8,130.7,112.6,96.0,88.2,74.4,91.2,71.6,57.8,65.2,72.0,101.3,135.2,140.4,121.8,136.3,122.1,98.9,71.9,63.3,64.4,77.2,60.5,51.3,50.2,40.8];
+
+var input4= [269.3,312.9,317,317.7,403.8,319.7,284.3,352.1,343.7,373.5,335.3,360.8,474.3,415,344.5,329.7,267.3,322.9,321.8,297.5,263.4,269.6,247.3,226.9,224.2,217.4,244.4,235.1];
+
+
+var chart1 = new CanvasJS.Chart("chartContainer1", {
+	title :{
+		text: "Share A"
+	},
+	axisX:{
+		title: "Time"
+	},
+	axisY: {
+		title: "Price",
+		includeZero: false
+	},      
+	data: [{
+		type: "line",
+		dataPoints: dps1
+	}]
+});
+
+var chart2 = new CanvasJS.Chart("chartContainer2", {
+	title :{
+		text: "Share B"
+	},
+	axisX:{
+		title: "Time"
+	},
+	axisY: {
+		title: "Price",
+		includeZero: false
+	},      
+	data: [{
+		type: "line",
+		dataPoints: dps2
+	}]
+});
+
+var chart3 = new CanvasJS.Chart("chartContainer3", {
+	title :{
+		text: "Share C"
+	},
+	axisX:{
+		title: "Time"
+	},
+	axisY: {
+		title: "Price",
+		includeZero: false
+	},      
+	data: [{
+		type: "line",
+		dataPoints: dps3
+	}]
+});
+
+var chart4 = new CanvasJS.Chart("chartContainer4", {
+	title :{
+		text: "Share D"
+	},
+	axisX:{
+		title: "Time"
+	},
+	axisY: {
+		title: "Price",
+		includeZero: false
+	},      
+	data: [{
+		type: "line",
+		dataPoints: dps4
+	}]
+});
+
+var updateInterval = 10000;
+var dataLength = 11; // number of dataPoints visible at any point
+var global_x= 0;
+
+var updateChart1 = function (count) {
+        //alert("count"+count);
+        if(global_x == 0){
+	for (var j = 0; j < count; j++) {
+		yVal1 = input1[xVal%29];
+		yVal2 = input2[xVal%29];
+		yVal3 = input3[xVal%29];
+		yVal4 = input4[xVal%29];
+		dps1.push({
+			x: xVal+1,
+			y: yVal1
+		});
+		dps2.push({
+			x: xVal+1,
+			y: yVal2
+		});
+		dps3.push({
+			x: xVal+1,
+			y: yVal3
+		});
+		dps4.push({
+			x: xVal+1,
+			y: yVal4
+		});
+		xVal= (xVal + 1);
+                if(xVal > 28)
+                {
+                    //alert("xval is now"+xVal+"Let's stop");
+                    alert("You have successfully completed the simulation. Click the SAVE button.");
+                    global_x= 1;
+                    break;
+                }
+                /*else
+                {
+                    alert("xval is now"+xVal)
+                }*/
+	} //end of loop
+        //alert("Thanks for ur time.pls click save button. sairam.");
+
+	if (dps1.length > dataLength) {
+		dps1.shift();
+	}
+
+	if (dps2.length > dataLength) {
+		dps2.shift();
+	}
+
+	if (dps3.length > dataLength) {
+		dps3.shift();
+	}
+
+	if (dps4.length > dataLength) {
+		dps4.shift();
+	}
+
+	chart1.render();
+	chart2.render();
+	chart3.render();
+	chart4.render();
+    }
+	};
+
+
+$("#buyShareA").click(function () {
+	var length = chart1.options.data[0].dataPoints.length;
+	if(length < 4)
+		return;
+	var buyA= parseInt(document.getElementById('BuyA').value);
+	if (isNaN(buyA) || buyA == 0) {
+		alert("Can't buy specified stock.");
+		document.getElementById('BuyA').value= "";
+		return;
+	}
+	var cost= yVal1*buyA;
+	if (cost <= total) {
+		//var length = chart1.options.data[0].dataPoints.length;
+		total-= cost;
+		curShare1+= buyA;
+		document.getElementById('total').value=total;
+		document.getElementById('BuyA').value="";
+		document.getElementById('curShare1Out').innerHTML= curShare1;
+		data.push({type:"buy",share:"A",shareValue:yVal1,count:buyA});
+		chart1.options.data[0].dataPoints[length-1].color = "Green";
+		chart1.render();
+		dcount++;
+	}
+	else {
+		alert("Not enough money! Can't buy.");
+		document.getElementById('BuyA').value= "";
+		return;
+	}
+	});
+
+$("#sellShareA").click(function () {
+	var length = chart1.options.data[0].dataPoints.length;
+	if(length < 4)
+		return;
+	var sellA= parseInt(document.getElementById('SellA').value);
+	if (isNaN(sellA) || sellA == 0){
+		alert("ERROR: No stocks to sell.")
+		return
+	}
+	if (curShare1 < sellA ) {
+		alert("Current share stock not enough!!!");
+		document.getElementById('SellA').value= "";
+		return;
+	}
+	//var length = chart1.options.data[0].dataPoints.length;
+	var sellPrice= sellA*yVal1;
+	total+= sellPrice;
+	curShare1-= sellA;
+	document.getElementById('total').value=total;
+	document.getElementById('curShare1Out').innerHTML= curShare1;
+	document.getElementById('SellA').value= "";
+	data.push({type:"sell",share:"A",shareValue:yVal1,count:sellA});
+	chart1.options.data[0].dataPoints[length-1].color = "Red";
+	chart1.render();
+	dcount++;
+	});
+
+$("#buyShareB").click(function () {
+	var length = chart2.options.data[0].dataPoints.length;
+	if(length < 4)
+		return;
+	var buyB= parseInt(document.getElementById('BuyB').value);
+	if (isNaN(buyB) || buyB == 0) {
+		alert("Can't buy specified stock.");
+		document.getElementById('BuyB').value= "";
+		return;
+	}
+	var cost= yVal2*buyB;
+	if (cost <= total) {
+		//var length = chart2.options.data[0].dataPoints.length;
+		total-= cost;
+		curShare2+= buyB;
+		document.getElementById('total').value=total;
+		document.getElementById('BuyB').value= "";
+		document.getElementById('curShare2Out').innerHTML= curShare2;
+		data.push({type:"buy",share:"B",shareValue:yVal2,count:buyB});
+		chart2.options.data[0].dataPoints[length-1].color = "Green";
+		chart2.render();
+		dcount++;
+	}
+	else {
+		alert("Not enough money! Can't buy.");
+		document.getElementById('BuyB').value= "";
+		return;
+	}
+	});
+
+$("#sellShareB").click(function () {
+	var length = chart2.options.data[0].dataPoints.length;
+	if(length < 4)
+		return;
+	var sellB= parseInt(document.getElementById('SellB').value);
+	if (isNaN(sellB) || sellB == 0){
+		alert("No stocks to sell.")
+		return;
+	}
+	if (curShare2 < sellB) {
+		alert("Current share stock not enough!!!");
+		document.getElementById('SellB').value= "";
+		return;
+	}
+	//var length = chart2.options.data[0].dataPoints.length;
+	var sellPrice= sellB*yVal2;
+	total+= sellPrice;
+	curShare2-= sellB;
+	document.getElementById('total').value=total;
+	document.getElementById('curShare2Out').innerHTML= curShare2;
+	document.getElementById('SellB').value= "";
+	data.push({type:"sell",share:"B",shareValue:yVal2,count:sellB});
+	chart2.options.data[0].dataPoints[length-1].color = "Red";
+	chart2.render();
+	dcount++;
+	});
+
+$("#buyShareC").click(function () {
+	var length = chart3.options.data[0].dataPoints.length;
+	if(length < 4)
+		return;
+	var buyC= parseInt(document.getElementById('BuyC').value);
+	if (isNaN(buyC) || buyC == 0) {
+		alert("Can't buy specified stock.");
+document.getElementById('BuyC').value= "";
+		return;
+	}
+	var cost= yVal3*buyC;
+	if (cost <= total) {
+	//	var length = chart3.options.data[0].dataPoints.length;
+		total-= cost;
+		curShare3+= buyC;
+		document.getElementById('total').value=total;
+		document.getElementById('BuyC').value= "";
+		document.getElementById('curShare3Out').innerHTML= curShare3;
+		data.push({type:"buy",share:"C",shareValue:yVal3,count:buyC});
+		chart3.options.data[0].dataPoints[length-1].color = "Green";
+		chart3.render();
+		dcount++;
+	}
+	else {
+		alert("Not enough money! Can't buy.");
+		document.getElementById('BuyC').value= "";
+		return;
+	}
+	});
+
+$("#sellShareC").click(function () {
+	var length = chart3.options.data[0].dataPoints.length;
+	if(length < 4)
+		return;
+	var sellC= parseInt(document.getElementById('SellC').value);
+	if (isNaN(sellC) || sellC == 0){
+		alert("No stocks to sell.");
+		return;
+	}
+	if (curShare3 < sellC) {
+		alert("Current share stock not enough!!!");
+		document.getElementById('SellC').value= "";
+		return;
+	}
+	//var length = chart3.options.data[0].dataPoints.length;
+	var sellPrice= sellC*yVal3;
+	total+= sellPrice;
+	curShare3-= sellC;
+	document.getElementById('total').value=total;
+	document.getElementById('curShare3Out').innerHTML= curShare3;
+	document.getElementById('SellC').value= "";
+	data.push({type:"sell",share:"C",shareValue:yVal3,count:sellC});
+	chart3.options.data[0].dataPoints[length-1].color = "Red";
+	chart3.render();
+	dcount++;
+	});
+
+$("#buyShareD").click(function () {
+	var length = chart4.options.data[0].dataPoints.length;
+	if(length < 4)
+		return;
+	var buyD= parseInt(document.getElementById('BuyD').value);
+	if (isNaN(buyD) || buyD == 0) {
+		alert("Can't buy specified stock.");
+		document.getElementById('BuyD').value= "";
+		return;
+	}
+	var cost= yVal4*buyD;
+	if (cost <= total) {
+		//var length = chart4.options.data[0].dataPoints.length;
+		total-= cost;
+		curShare4+= buyD;
+		document.getElementById('total').value=total;
+		document.getElementById('BuyD').value= "";
+		document.getElementById('curShare4Out').innerHTML= curShare4;
+		data.push({type:"buy",share:"D",shareValue:yVal4,count:buyD});
+		chart4.options.data[0].dataPoints[length-1].color = "Green";
+		chart4.render();
+		dcount++;
+	}
+	else {
+		alert("Not enough money! Can't buy.");
+		document.getElementById('BuyD').value= "";
+		return;
+	}
+	});
+
+$("#sellShareD").click(function () {
+	var length = chart4.options.data[0].dataPoints.length;
+	if(length < 4)
+		return;
+	var sellD= parseInt(document.getElementById('SellD').value);
+	if (isNaN(sellD) || sellD == 0){
+		alert("No stocks to sell.");
+		return;
+	}
+	if (curShare4 < sellD) {
+		alert("Current share stock not enough!!!");
+		document.getElementById('SellD').value= "";
+		return;
+	}
+	//var length = chart4.options.data[0].dataPoints.length;
+	var sellPrice= sellD*yVal4;
+	total+= sellPrice;
+	curShare4-= sellD;
+	document.getElementById('total').value=total;
+	document.getElementById('curShare4Out').innerHTML= curShare4;
+	document.getElementById('SellD').value= "";
+	data.push({type:"sell",share:"D",shareValue:yVal4,count:sellD});
+	chart4.options.data[0].dataPoints[length-1].color = "Red";
+	chart4.render();
+	dcount++;
+	});
+
+
+$("#saveData").click(function () {
+
+	let dataout = "data:text/csv;charset=utf-8,";
+	dataout+= "Question,Response\n";
+	for (i= 0; i <  (quiz_data.length); i++){
+		temp= quiz_data[i].split(":");
+		dataout+= (temp[0]+","+temp[1]+"\n");
+	}
+	
+	dataout+= "\n\nType,Share,ShareValue,Count\n";
+	for (var i= 0; i < data.length; i++) {
+		dataout+= (data[i]['type']+","+data[i]['share']+","+data[i]['shareValue']+","+data[i]['count']+"\n");
+	}
+	var encodedUri = encodeURI(dataout);
+	window.open(encodedUri);
+	});
+
+var updateCharts = function (count)
+	{
+        	count = count || 1;
+        	if(xVal  > 29) return;
+        	updateChart1(count);
+	  	document.getElementById('total').value=total;
+	};
+
+updateCharts(1);
+setInterval(function(){updateCharts()}, updateInterval);
+
+}
+</script>
+</head>
+<body>
+<br>
+<div class="container" id="stock">
+	<div class="row row-centered-pos" >
+		<div class="col-md-6" >
+			<p id="chartContainer1" style="height: 250px; width: 100%;"></p>
+			<table class="table table-responsive" >
+				<tr>
+					<td>
+					<input class="form-control" type="text" name= "BuyA" id= "BuyA" value= "" placeholder="0"/>
+					</td>
+					<td align="left">
+					<button id="buyShareA" class="btn btn-sm btn-info">Buy <span class="glyphicon glyphicon-plus"></span></button>
+					</td>
+					<td>
+					<input class="form-control" style="width:100%;" type= "text" name= "SellA" id= "SellA" value= "" placeholder="0"/>
+					</td>
+					<td>
+					<button class="btn btn-sm btn-info" id="sellShareA">Sell <span class="glyphicon glyphicon-minus"></button>
+					</td>
+					<td style="width: 27%" align="right">
+					<label>Available Shares:</label> <label id="curShare1Out">0</label>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="col-md-6" >
+			<p id="chartContainer2" style="height: 250px; width: 100%;"></p>
+			<table class="table table-responsive">
+				<tr>
+					<td>
+					<input class="form-control" style="width:100%;" type= "text" name= "BuyB" id= "BuyB" value= "" placeholder="0"/>
+					</td>
+					<td align="left">
+					<button id="buyShareB" class="btn btn-sm btn-info">Buy <span class="glyphicon glyphicon-plus"></span></button>
+					</td>
+					<td>
+					<input class="form-control" style="width:100%;" type= "text" name= "SellB" id= "SellB" value= "" placeholder="0"/>
+					</td>
+					<td>
+					<button class="btn btn-sm btn-info" id="sellShareB">Sell <span class="glyphicon glyphicon-minus"></button>
+					</td>
+					<td style="width: 27%" align="right">
+					<label>Available Shares:</label> <label id="curShare2Out">0</label>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div><br>
+	<div class="row row-centered-pos">
+		<div class="col-md-6" >
+			<p id="chartContainer3" style="height: 250px; width: 100%;"></p>
+			<table class="table table-responsive">
+				<tr>
+					<td>
+					<input class="form-control" style="width:100%;" type= "text" name= "BuyC" id= "BuyC" value= "" placeholder="0"/>
+					</td>
+					<td align="left">
+					<button id="buyShareC" class="btn btn-sm btn-info">Buy <span class="glyphicon glyphicon-plus"></span></button>
+					</td>
+					<td>
+					<input class="form-control" style="width:100%;" type= "text" name= "SellC" id= "SellC" value= "" placeholder="0"/>
+					</td>
+					<td>
+					<button class="btn btn-sm btn-info" id="sellShareC">Sell <span class="glyphicon glyphicon-minus"></button>
+					</td>
+					<td style="width: 27%" align="right">
+					<label>Available Shares:</label> <label id="curShare3Out">0</label>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="col-md-6" >
+			<p id="chartContainer4" style="height: 250px; width: 100%;"></p>
+			<table class="table table-responsive">
+				<tr>
+					<td>
+					<input class="form-control" style="width:100%;" type= "text" name= "BuyD" id= "BuyD" value= "" placeholder="0"/>
+					</td>
+					<td align="left">
+					<button id="buyShareD" class="btn btn-sm btn-info">Buy <span class="glyphicon glyphicon-plus"></span></button>
+					</td>
+					<td>
+					<input class="form-control" style="width:100%;" type= "text" name= "SellD" id= "SellD" value= "" placeholder="0"/>
+					</td>
+					<td>
+					<button class="btn btn-sm btn-info" id="sellShareD">Sell <span class="glyphicon glyphicon-minus"></button>
+					</td>
+					<td style="width: 27%" align="right">
+					<label>Available Shares:</label> <label id="curShare4Out">0</label>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div><br>
+</div>
+<div class="container">
+	<p>
+
+
+	<!--<button style="margin-left: 10px;height: 40px;color: red" type="button" value="save" id="save" onclick="saveData();">SAVE</button> -->
+	</p>
+	<table class="table table-hover" id="table" style="width:60%" align="right">
+		<tr >
+			<td><label for="total" >Cash Available</label></td>
+			<td>	<input   class="form-control" type= text name= "total" id= "total" readonly/> </td>
+			<td align="left">
+				<p id="green">
+			</td>
+			<td align="left">
+				Bought
+			</td>
+			<td align="left">
+				<p id="red">
+			</td>
+			<td align="left">
+				Sold
+			</td>
+			<td>	<button id="saveData" class="btn btn-sm btn-success">SAVE <span class="glyphicon glyphicon-save"></span></button> </td>
+		</tr>
+	</table></div>
+
+</body>
+</html>

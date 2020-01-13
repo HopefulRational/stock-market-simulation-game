@@ -1,0 +1,31 @@
+#red{
+	background-color: red;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+}
+
+#green{
+	background-color: green;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+}
+
+#stock table input{
+	width: 100%;
+	overflow-y: auto;
+}
+
+/*#table #b{
+	padding-left: 70px;
+}
+
+#buyShareA,#sellShareA{
+	transition: all 0.5s;
+}
+
+#buyShareA:hover , #sellShareA:hover{
+	box-shadow: 2px 2px 14px black;
+}
+*/

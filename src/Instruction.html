@@ -1,0 +1,95 @@
+<html>
+<style>
+body{
+background:url("BG.JPG");
+background-size:2000px 2000px;   
+background-repeat:no repeat;
+}
+</style>
+<head>
+<link rel = "stylesheet" type = "text/css" href = "../stylesheet.css">
+
+
+<script type="text/javascript">
+var query= decodeURIComponent(window.location.search)
+query= query.substring(1)
+//quiz_data= query.split("&")
+//console.log(query)
+
+
+function sendData() {
+	var quer= "?"+query;
+        //alert(quer);
+	window.location.href= "final.html"+quer;
+	return;
+}
+
+</script>
+
+
+<title> Simulation Instructions </title>
+</head>
+<body bgcolor=white>
+<font color= black> 
+<h1><center>Welcome to the Stock Market Simulator</h1>
+
+
+<h2>Instructions First!</h2>
+
+<div>
+<font size= 5>
+<ul>
+<li>
+You are given virtual currency of 100,000 as your initial investment. <br/><br/>
+<li>
+The aim of this exercise is to maximise your returns on an initial investment of $100,000. The timeframe of this exercise is only about 7 minutes.
+<br/><br/></li>
+
+<li>
+This simulated stock market setting consists of only 4 stocks which we call A B C and D.
+<br/><br/></li>
+
+<img src="PC1.jpg" width="1300" height="700">
+
+<br/><br/></li>
+<li>
+While the y-axis shows the share price, the x-axis shows the time: 28 quarters in total. The participant is requested to observe the stocks for 4 quarters and the game will only begin after the 4th quarter (i.e. when the stock reaches point 4 on the x-axis).
+<br/><br/></li>
+<li>
+Your buy and sell trades, placed only after the fourth quarter, will be considered while measuring your total wealth. 
+<br/><br/></li>
+<li>
+The number of shares to be bought and sold have to be entered into the respective buy and sell boxes for each share separately and you need to click the blue color buy and sell button after entering the number of shares. 
+<br/><br/></li>
+
+<img src="PC2.jpg" width="1200" height="600">
+
+
+<br/><br/></li>
+<li>
+When a buy order is placed for any share, a green color reference point will appear on the trend line showing the price at which it was bought. Similarly, a red color reference point will appear in the case of a sell order.
+<br/><br/></li>
+
+<img src="PC3.jpg" width="1200" height="500">
+<br/><br/></li>
+<li>
+If required amount of cash is not available, you will get an error message saying "Not enough Money! Can't buy"
+<br/><br/></li>
+<li>
+The stock price trend will stop at quarter 28 and you have completed the exercise.
+<br/><br/></li>
+<li>
+After the game ends the participant needs to click on the SAVE button and save the file locally that gets automatically generated containing the results of all the three sections. The participant can then mail the file to the below mentioned mail address.
+</li></ul>
+ashishproject07@gmail.com
+<br/>
+
+
+
+</font></div><br />
+<!-- <div style="text-align:center"><div id="button"><font color= "black" size= 6/>NEXT</a></div></div> -->
+<button style="margin-left: 10px;height: 40px;color: red" type="button" value="send" id="send" onclick="sendData()">NEXT</button>
+</body>
+
+</html>
+
